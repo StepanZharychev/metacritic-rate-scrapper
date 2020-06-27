@@ -1,25 +1,38 @@
 const fs = require('fs');
 const CryptoJS = require('crypto-js');
 
+const folder = process.argv[2];
+
 const run = async () => {
-   let result = {};
-   const files = await fs.promises.readdir('./results');
+    if (folder) {
+        try {
+            await fs.promises.access(`./results/${folder}/pages`);
+        } catch (err) {
+            console.error('Specified result folder doesn\'t exist!');
+            return;
+        }
 
-   for (let file of files) {
-      const fileData = require(`./results/${file}`);
+        let result = [];
+        const files = await fs.promises.readdir(`./results/${folder}/pages`);
+        const userData = require(`./results/${folder}/users/index.json`);
 
-      for (let rating of fileData) {
-         const hash = CryptoJS.MD5(rating.text);
-         result[hash] = rating;
-      }
-   }
+        for (let file of files) {
+            const fileData = require(`./results/${folder}/pages/${file}`);
 
-   try {
-      await fs.promises.access('./totals')
-   } catch (err) {
-      await fs.promises.mkdir('./totals');
-   }
+            for (let entry of fileData) {
+                result.push({ ...entry, userData: userData[entry.user] });
+            }
+        }
 
-   await fs.promises.writeFile(`./totals/total.json`, JSON.stringify(Object.values(result)), 'utf8');
+        try {
+            await fs.promises.access('./totals')
+        } catch (err) {
+            await fs.promises.mkdir('./totals');
+        }
+
+        await fs.promises.writeFile(`./totals/index.json`, JSON.stringify(result), 'utf8');
+    } else {
+        console.error('Please, specify folder parameter!');
+    }
 };
 run();

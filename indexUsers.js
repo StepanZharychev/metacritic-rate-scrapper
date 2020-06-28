@@ -23,11 +23,12 @@ const run = async () => {
 
             for (let rating of fileData) {
                 if (!existingUsers[rating.user]) {
-                    processed++;
                     existingUsers[rating.user] = await userPage.scrapPage(rating.user);
                     await timeout(100);
                     console.log(`Checked user ${rating.user}.`);
                 }
+
+                processed++;
             }
 
             processedPages++;

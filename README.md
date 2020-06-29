@@ -2,6 +2,8 @@
 This set of scripts is designed to get basic info from Metaritic Games section, specifically from User Reviews.
 In order to make it work follow the instructions below:
 
+`npm i` from the root of repository
+
 (1) **Index pages.** From root of the folder run the following:
 ```bash
 node indexPages.js <gameurl> <pagenumber>

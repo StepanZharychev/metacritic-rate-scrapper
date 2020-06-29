@@ -16,7 +16,7 @@ So a call for the parameters above will look like:
 node indexPages.js https://www.metacritic.com/game/playstation-4/the-last-of-us-part-ii 1
 ```
 
-(2) Index Users. Each review has user, next step gets user's data:
+(2) **Index Users.** Each review has user, next step gets user's data:
 ```bash
 node indexUsers.js <gamename>
 ```
@@ -25,7 +25,7 @@ node indexUsers.js <gamename>
 As a result of 2 steps you should have 2 directories in the following path `results/the-last-of-us-part-ii` they're `pages` and `users`.
 Last step will unify them into 1 big file:
 
-(3) Unify results.
+(3) **Unify results.**
 ```bash
 node unifyResults.js <gamename>
 ```
